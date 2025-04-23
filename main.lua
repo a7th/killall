@@ -51,7 +51,17 @@ function Last_Team(Lastteam)
 				MoveTo(b)
 				a:Disconnect()
 			end)
-			local Team = Valid_Team(Lastteam)
+			function Valid_Team(teamName)
+			    -- You can replace this with your own logic for validating a team
+			    local validTeams = { "Guards", "Inmates", "Criminals" }  -- Example list of valid teams
+			    for _, team in pairs(validTeams) do
+			        if team == teamName then
+			            return team  -- If it's a valid team, return the team name
+			        end
+			    end
+			    return nil  -- Return nil if it's not a valid team
+			end
+
 			if Team and Team~=1 then
 				local pos = getpos()
 				workspace.Remote.TeamEvent:FireServer(Lastteam)
