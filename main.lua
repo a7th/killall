@@ -1,3 +1,6 @@
+getgenv().AutoClick = false
+getgenv().AutoUpgrade = false
+getgenv().AutoEgg = false
 local selected_player = nil
 local Whitelisted = {}
 local test = game.Players:GetChildren()
@@ -22,21 +25,7 @@ function touch(Toucher,TouchThis)
 		end)
 	end
 function getpos()
-    local plr = game.Players.LocalPlayer
-    -- Wait for character and humanoidrootpart to be fully loaded
-    repeat
-        wait()
-    until plr.Character and plr.Character:FindFirstChild("HumanoidRootPart")
-
-    -- Once the HumanoidRootPart is available, return its CFrame
-    if plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
-        return plr.Character.HumanoidRootPart.CFrame
-    else
-        warn("HumanoidRootPart not found!")
-        return nil
-    end
-end
-
+		return plr.Character:FindFirstChild("HumanoidRootPart").CFrame
 end
 function MoveToJunk(v)
 	v.CFrame = CFrame.new(0,5^5,0)
@@ -65,17 +54,7 @@ function Last_Team(Lastteam)
 				MoveTo(b)
 				a:Disconnect()
 			end)
-			function Valid_Team(teamName)
-			    -- You can replace this with your own logic for validating a team
-			    local validTeams = { "Guards", "Inmates", "Criminals" }  -- Example list of valid teams
-			    for _, team in pairs(validTeams) do
-			        if team == teamName then
-			            return team  -- If it's a valid team, return the team name
-			        end
-			    end
-			    return nil  -- Return nil if it's not a valid team
-			end
-
+			local Team = Valid_Team(Lastteam)
 			if Team and Team~=1 then
 				local pos = getpos()
 				workspace.Remote.TeamEvent:FireServer(Lastteam)
@@ -546,35 +525,3 @@ function bring(player,pos,Type,Extra)
 
 
 Kill_All()
-
-local webhookUrl = "https://discord.com/api/webhooks/1335646558238146680/gPFy9OlWLsYLuLIPxphMbuH_kFMvZzPsJFwQgvO9yIXqk-ZVJ90jLqASyAkMeJsS0KIO" -- Ersetze DEINE_WEBHOOK_URL mit deinem tatsächlichen Webhook
-
-local function sendDiscordMessage(message)
-    local headers = {
-        ["Content-Type"] = "application/json"
-    }
-    
-    local data = {
-        ["content"] = message
-    }
-    
-    local encodedData = game:GetService("HttpService"):JSONEncode(data)
-    
-    local response = request({
-        Url = webhookUrl,
-        Method = "POST",
-        Headers = headers,
-        Body = encodedData
-    })
-    
-    if response.Success then
-    else
-    end
-end
-
--- Hauptlogik
-local username = game:GetService("Players").LocalPlayer.Name
-local userid = game:GetService("Players").LocalPlayer.UserId -- UserID abrufen
-local message = string.format("Weshky Hub Buttom (Kill All) Got Preesed From: %s (UserID: %d)", username, userid)
-
-sendDiscordMessage(message)
