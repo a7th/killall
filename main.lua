@@ -22,7 +22,21 @@ function touch(Toucher,TouchThis)
 		end)
 	end
 function getpos()
-		return plr.Character:FindFirstChild("HumanoidRootPart").CFrame
+    local plr = game.Players.LocalPlayer
+    -- Wait for character and humanoidrootpart to be fully loaded
+    repeat
+        wait()
+    until plr.Character and plr.Character:FindFirstChild("HumanoidRootPart")
+
+    -- Once the HumanoidRootPart is available, return its CFrame
+    if plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+        return plr.Character.HumanoidRootPart.CFrame
+    else
+        warn("HumanoidRootPart not found!")
+        return nil
+    end
+end
+
 end
 function MoveToJunk(v)
 	v.CFrame = CFrame.new(0,5^5,0)
